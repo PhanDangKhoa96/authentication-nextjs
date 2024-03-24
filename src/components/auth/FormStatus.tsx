@@ -10,11 +10,14 @@ const FormStatus = ({
     message?: string;
     isError: boolean;
 }) => {
-    console.log('message', message);
     if (!message) return null;
     return (
         <Alert className={cn(isError ? 'text-red-500' : 'text-green-500')}>
-            <ExclamationTriangleIcon className="h-4 w-4" />
+            {isError ? (
+                <ExclamationTriangleIcon className="h-4 w-4" />
+            ) : (
+                <CheckCircledIcon className="h-4 w-4" />
+            )}
             <AlertDescription>{message}</AlertDescription>
         </Alert>
     );

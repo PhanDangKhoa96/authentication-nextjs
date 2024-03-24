@@ -14,55 +14,76 @@ import {
     FormMessage,
 } from '../ui/form';
 import {Input} from '../ui/input';
-import {loginSchema} from '@/schemas';
+import {registerSchema} from '@/schemas';
 import {z} from 'zod';
 import {login} from '../../../actions/login';
-import {LoginValueType} from '@/types/login';
+import {LoginValueType, RegisterValueType} from '@/types/login';
 import FormStatus from './FormStatus';
 import ExternalProvider from './ExternalProvider';
+import {register} from '../../../actions/register';
 
-const LoginForm = () => {
-    const form = useForm<LoginValueType>({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {},
+const defaultValues: RegisterValueType = {
+    email: '',
+    name: '',
+    password: '',
+};
+
+const RegisterForm = () => {
+    const form = useForm<RegisterValueType>({
+        resolver: zodResolver(registerSchema),
+        defaultValues,
     });
 
-    const [error, setError] = useState<string | undefined>('');
-    const [success, setSuccess] = useState<string | undefined>('');
-
     const [isPending, startTransition] = useTransition();
-    // const [message, setMessage] = useState<{
-    //     error?: string | undefined;
-    //     success?: string | undefined;
-    // }>({
-    //     error: '',
-    //     success: '',
-    // });
+    const [message, setMessage] = useState<{
+        error?: string | undefined;
+        success?: string | undefined;
+    }>({
+        error: '',
+        success: '',
+    });
 
-    const onSubmit = (values: LoginValueType) => {
-        setError('');
-        setSuccess('');
+    const onSubmit = (values: RegisterValueType) => {
+        setMessage({error: '', success: ''});
         startTransition(() => {
-            login(values).then((data) => {
-                if (data?.error) {
-                    setError(data.error);
-                }
-
-                if (data?.success) {
-                    setSuccess(data.success);
-                }
-            });
+            register(values)
+                .then((data) => {
+                    setMessage(data);
+                })
+                .finally(() => {
+                    if (message.success) form.reset(defaultValues);
+                });
         });
     };
 
     return (
         <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <h1 className="text-2xl font-semibold text-center mb-10">Login</h1>
+            <h1 className="text-2xl font-semibold text-center mb-10">
+                Register
+            </h1>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8">
                     <div className="space-y-6">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            disabled={isPending}
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Kurapika"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="email"
@@ -103,8 +124,8 @@ const LoginForm = () => {
                     </div>
 
                     <FormStatus
-                        message={error || success}
-                        isError={Boolean(error)}
+                        message={message?.error || message?.success}
+                        isError={Boolean(message?.error)}
                     />
 
                     <Button
@@ -121,4 +142,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default RegisterForm;
