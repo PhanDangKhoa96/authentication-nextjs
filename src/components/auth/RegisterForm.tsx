@@ -1,26 +1,22 @@
 'use client';
 
-import React, {useState, useTransition} from 'react';
-import {useForm} from 'react-hook-form';
-import {Button} from '../ui/button';
-import {zodResolver} from '@hookform/resolvers/zod';
+import { registerSchema } from '@/schemas';
+import { RegisterValueType } from '@/types/login';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { register } from '../../../actions/register';
+import { Button } from '../ui/button';
 import {
     Form,
-    FormControl,
-    FormDescription,
-    FormField,
+    FormControl, FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from '../ui/form';
-import {Input} from '../ui/input';
-import {registerSchema} from '@/schemas';
-import {z} from 'zod';
-import {login} from '../../../actions/login';
-import {LoginValueType, RegisterValueType} from '@/types/login';
-import FormStatus from './FormStatus';
+import { Input } from '../ui/input';
 import ExternalProvider from './ExternalProvider';
-import {register} from '../../../actions/register';
+import FormStatus from './FormStatus';
 
 const defaultValues: RegisterValueType = {
     email: '',

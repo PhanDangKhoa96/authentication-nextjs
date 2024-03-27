@@ -1,9 +1,12 @@
 'use server';
 
+import {sendEmailVerification} from '@/lib/email';
+import {generateVerificationToken} from '@/lib/token';
 import {loginSchema} from '@/schemas';
 import {LoginValueType} from '@/types/login';
 import {AuthError} from 'next-auth';
 import {signIn} from '../auth';
+import {getUserByEmail} from '../data/user';
 import {DEFAULT_DIRECT_LOGIN} from '../routes';
 
 export const login = async (values: LoginValueType) => {
@@ -19,6 +22,23 @@ export const login = async (values: LoginValueType) => {
 
     if (someThingElseHappen) {
         return {success: 'Eyo something else happen here'};
+    }
+
+    const existingUser = await getUserByEmail(email);
+
+    if (!existingUser || !existingUser.email || !existingUser.password) {
+        return {error: 'Wrong login information!'};
+    }
+
+    if (!existingUser.emailVerified) {
+        const verificationToken = await generateVerificationToken(email);
+
+        await sendEmailVerification(
+            verificationToken.email,
+            verificationToken.token
+        );
+
+        return {success: 'Confirmation email resent!'};
     }
 
     try {
