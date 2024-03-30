@@ -12,3 +12,14 @@ export const sendEmailVerification = async (email: string, token: string) => {
         react: VerificationEmail({firstName: 'John', redirectLink}),
     });
 };
+
+export const sendEmailReset = async (email: string, token: string) => {
+    const resetLink = `http://localhost:3000/auth/reset-password?token=${token}&email=${email}`;
+
+    await resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: [email],
+        subject: 'Reset email',
+        react: VerificationEmail({firstName: 'John', redirectLink: resetLink}),
+    });
+};
