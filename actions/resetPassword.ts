@@ -1,11 +1,9 @@
 'use server';
 
-import {db} from '@/lib/db';
-import {resetSchema} from '@/schemas';
-import {ResetValueType} from '@/types/login';
-import {getResetTokenByToken} from '../data/reset-token';
-import {getUserByEmail} from '../data/user';
-import {hash, compare} from 'bcryptjs';
+import { db } from '@/lib/db';
+import { compare, hash } from 'bcryptjs';
+import { getResetTokenByToken } from '../data/reset-token';
+import { getUserByEmail } from '../data/user';
 
 export const resetPassword = async (token: string, password: string) => {
     const resetToken = await getResetTokenByToken(token);

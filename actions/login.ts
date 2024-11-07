@@ -1,7 +1,7 @@
 'use server';
 
-import {sendEmailVerification} from '@/lib/email';
-import {generateVerificationToken} from '@/lib/token';
+import {sendEmailVerification} from '@/lib/auth/email';
+import {generateVerificationToken} from '@/lib/auth/token';
 import {loginSchema} from '@/schemas';
 import {LoginValueType} from '@/types/login';
 import {AuthError} from 'next-auth';
@@ -17,12 +17,6 @@ export const login = async (values: LoginValueType) => {
     }
 
     const {email, password} = validatedFields.data;
-
-    const someThingElseHappen = false;
-
-    if (someThingElseHappen) {
-        return {success: 'Eyo something else happen here'};
-    }
 
     const existingUser = await getUserByEmail(email);
 

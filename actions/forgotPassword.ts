@@ -1,8 +1,8 @@
 'use server';
 
 import {db} from '@/lib/db';
-import {sendEmailReset} from '@/lib/email';
-import {generateResetToken} from '@/lib/token';
+import {sendEmailReset} from '@/lib/auth/email';
+import {generateResetToken} from '@/lib/auth/token';
 import {forgotSchema} from '@/schemas';
 import {ForgotValueType} from '@/types/login';
 

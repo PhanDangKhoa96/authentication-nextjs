@@ -73,7 +73,7 @@ const RegisterForm = () => {
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Kurapika"
+                                            placeholder="Name"
                                             {...field}
                                         />
                                     </FormControl>

@@ -1,7 +1,7 @@
 'use server';
 
-import {sendEmailVerification} from '@/lib/email';
-import {generateVerificationToken} from '@/lib/token';
+import {sendEmailVerification} from '@/lib/auth/email';
+import {generateVerificationToken} from '@/lib/auth/token';
 import {registerSchema} from '@/schemas';
 import {RegisterValueType} from '@/types/login';
 import {createNewUser, getUserByEmail} from '../data/user';

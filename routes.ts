@@ -7,5 +7,5 @@ export const authRoutes = [
     "/auth/reset-password"
 ];
 export const apiAuthPrefix = '/api/auth';
-export const DEFAULT_DIRECT_LOGIN = '/settings';
+export const DEFAULT_DIRECT_LOGIN = '/dashboard';
 export const DEFAULT_DIRECT_NOT_LOGIN = '/auth/login';

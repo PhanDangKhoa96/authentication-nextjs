@@ -10,6 +10,7 @@ export const sendEmailVerification = async (email: string, token: string) => {
         to: [email],
         subject: 'Confirm email',
         react: VerificationEmail({firstName: 'John', redirectLink}),
+        text: redirectLink,
     });
 };
 
@@ -21,5 +22,6 @@ export const sendEmailReset = async (email: string, token: string) => {
         to: [email],
         subject: 'Reset email',
         react: VerificationEmail({firstName: 'John', redirectLink: resetLink}),
+        text: resetLink,
     });
 };
