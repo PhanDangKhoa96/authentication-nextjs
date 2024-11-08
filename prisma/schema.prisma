@@ -29,11 +29,20 @@ model User {
 model Teacher {
   id       String   @id @default(cuid())
   subjects String[]
-  lessons  String[]
-  classes  String[]
+  // lessons  String[]
+  // classes  String[]
 
   // Relations
-  user User?
+  user      User?
+  Subject   Subject? @relation(fields: [subjectId], references: [id])
+  subjectId Int?
+}
+
+model Subject {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  teachers Teacher[]
+  // lessons  Lesson[]
 }
 
 model Admin {

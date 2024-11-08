@@ -59,7 +59,6 @@ const TeacherList = () => {
                         <TableHead>Email</TableHead>
                         <TableHead>Phone</TableHead>
                         <TableHead>Subjects</TableHead>
-                        <TableHead>Created At</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -87,9 +86,6 @@ const TeacherList = () => {
                             <TableCell>{teacher.email}</TableCell>
                             <TableCell>{teacher.phone}</TableCell>
                             <TableCell>{teacher.subjects.join(', ')}</TableCell>
-                            <TableCell>
-                                {format(teacher.createdAt, 'dd/MM/yyyy')}
-                            </TableCell>
                             <TableCell className="text-right">
                                 <div className="flex justify-end gap-2">
                                     <Button variant="ghost" size="icon">

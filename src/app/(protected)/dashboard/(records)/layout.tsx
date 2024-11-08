@@ -1,9 +1,9 @@
 import AddNewRecord from '@/components/dashboard/AddNewRecord';
 import FilterBar from '@/components/dashboard/FilterBar';
 import SearchBar from '@/components/dashboard/SearchBar';
-import TeacherList from '@/components/dashboard/TeacherList';
+import React, {PropsWithChildren} from 'react';
 
-export default function TeacherTable() {
+const RecordLayout = ({children}: PropsWithChildren) => {
     return (
         <div className="w-full">
             {/* Header with search and actions */}
@@ -16,7 +16,9 @@ export default function TeacherTable() {
             </div>
 
             {/* Table */}
-            <TeacherList />
+            {children}
         </div>
     );
-}
+};
+
+export default RecordLayout;
