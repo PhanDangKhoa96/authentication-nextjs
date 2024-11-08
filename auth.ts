@@ -13,12 +13,12 @@ export const {
 } = NextAuth({
     events: {
         async linkAccount({user}) {
-            await db.user.update({
-                where: {id: user.id},
-                data: {
-                    emailVerified: new Date(),
-                },
-            });
+            // await db.user.update({
+            //     where: {id: user.id},
+            //     data: {
+            //         emailVerified: new Date(),
+            //     },
+            // });
         },
     },
     callbacks: {
@@ -28,34 +28,34 @@ export const {
             if (!user.id) return false;
             const existingUser = await getUserById(user.id);
 
-            if (!existingUser || !existingUser.emailVerified) {
+            if (!existingUser) {
                 return false;
             }
 
             return true;
         },
-        async session({session, token}) {
-            if (session.user && token.sub) {
-                session.user.id = token.sub;
-            }
-            if (session.user && token.role) {
-                session.user.role = token.role as UserRole;
-            }
+        // async session({session, token}) {
+        //     if (session.user && token.sub) {
+        //         session.user.id = token.sub;
+        //     }
+        //     if (session.user && token.role) {
+        //         session.user.role = token.role as UserRole;
+        //     }
 
-            return session;
-        },
+        //     return session;
+        // },
 
-        async jwt({token}) {
-            if (!token.sub) return token;
+        // async jwt({token}) {
+        //     if (!token.sub) return token;
 
-            const user = await getUserById(token.sub);
+        //     const user = await getUserById(token.sub);
 
-            if (!user) return token;
+        //     if (!user) return token;
 
-            token.role = user.role;
+        //     token.role = user.role;
 
-            return token;
-        },
+        //     return token;
+        // },
     },
     adapter: PrismaAdapter(db),
     session: {strategy: 'jwt'},

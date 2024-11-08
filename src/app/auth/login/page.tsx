@@ -9,14 +9,6 @@ const LoginPage = () => {
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
                 <LoginForm />
             </div>
-            <p className="mt-10 text-center text-sm text-gray-500">
-                Not a member?{' '}
-                <Link
-                    href="/auth/register"
-                    className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                    Register now!
-                </Link>
-            </p>
         </div>
     );
 };

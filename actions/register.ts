@@ -21,14 +21,14 @@ export const register = async (values: RegisterValueType) => {
         return {error: 'Email already exists!'};
     }
 
-    createNewUser(email, name, password);
+    createNewUser({email, name, password, role: 'ADMIN'});
 
-    const verificationToken = await generateVerificationToken(email);
+    // const verificationToken = await generateVerificationToken(email);
 
-    await sendEmailVerification(
-        verificationToken.email,
-        verificationToken.token
-    );
+    // await sendEmailVerification(
+    //     verificationToken.email,
+    //     verificationToken.token
+    // );
 
     return {success: 'Confirmation email sent!'};
 };

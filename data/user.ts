@@ -1,4 +1,5 @@
 import {db} from '@/lib/db';
+import {UserRole} from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
 export const getUserByEmail = async (email: string) => {
@@ -21,12 +22,22 @@ export const getUserById = async (id: string) => {
     }
 };
 
-export const createNewUser = async (
-    email: string,
-    name: string,
-    password: string
-) => {
+export const createNewUser = async ({
+    email,
+    name,
+    password,
+    role,
+}: {
+    email: string;
+    name: string;
+    password: string;
+    role: UserRole;
+}) => {
     const harshedPassword = await bcrypt.hash(password, 10);
 
-    await db.user.create({data: {email, name, password: harshedPassword}});
+    const user = await db.user.create({
+        data: {email, name, password: harshedPassword, role},
+    });
+
+    return user;
 };

@@ -45,7 +45,6 @@ const RegisterForm = () => {
         startTransition(() => {
             register(values)
                 .then((data) => {
-                    console.log('data', data)
                     setMessage(data);
                 })
                 .finally(() => {
@@ -72,10 +71,7 @@ const RegisterForm = () => {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            placeholder="Name"
-                                            {...field}
-                                        />
+                                        <Input placeholder="Name" {...field} />
                                     </FormControl>
 
                                     <FormMessage />

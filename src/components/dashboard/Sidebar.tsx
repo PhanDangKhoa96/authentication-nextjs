@@ -1,3 +1,5 @@
+'use client';
+
 import {
     Award,
     Bell,
@@ -16,6 +18,9 @@ import {
     UserSquare2,
 } from 'lucide-react';
 import Link from 'next/link';
+import {auth} from '../../../auth';
+import {signOut, useSession} from 'next-auth/react';
+import {Button} from '../ui/button';
 
 const Sidebar = () => {
     return (
@@ -63,12 +68,12 @@ const Sidebar = () => {
                     <Settings className="h-5 w-5" />
                     <span>Settings</span>
                 </a>
-                <a
-                    href="#"
-                    className="flex items-center space-x-3 rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-white/10">
+                <button
+                    onClick={() => signOut()}
+                    className="flex items-center w-full justify-start space-x-3 rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-white/10">
                     <LogOut className="h-5 w-5" />
                     <span>Logout</span>
-                </a>
+                </button>
             </div>
         </div>
     );

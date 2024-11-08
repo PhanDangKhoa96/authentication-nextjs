@@ -24,16 +24,16 @@ export const login = async (values: LoginValueType) => {
         return {error: 'Wrong login information!'};
     }
 
-    if (!existingUser.emailVerified) {
-        const verificationToken = await generateVerificationToken(email);
+    // if (!existingUser.emailVerified) {
+    //     const verificationToken = await generateVerificationToken(email);
 
-        await sendEmailVerification(
-            verificationToken.email,
-            verificationToken.token
-        );
+    //     await sendEmailVerification(
+    //         verificationToken.email,
+    //         verificationToken.token
+    //     );
 
-        return {success: 'Confirmation email resent!'};
-    }
+    //     return {success: 'Confirmation email resent!'};
+    // }
 
     try {
         await signIn('credentials', {
