@@ -61,7 +61,7 @@ const AddNewRecord = () => {
                 <DialogHeader>
                     <DialogTitle>{pageContent().dialogTitle}</DialogTitle>
                 </DialogHeader>
-                <FormComponent />
+                <FormComponent setIsOpen={setIsOpen} />
             </DialogContent>
         </Dialog>
     );

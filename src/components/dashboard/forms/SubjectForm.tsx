@@ -1,6 +1,6 @@
 'use client';
 
-import {useState} from 'react';
+import {Dispatch, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -19,9 +19,8 @@ import {
 import {formSchema} from '@/schemas/formSchema';
 import {createSubject} from '../../../../data/subject';
 
-const SubjectForm = () => {
+const SubjectForm = ({setIsOpen}: {setIsOpen: Dispatch<boolean>}) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -35,7 +34,7 @@ const SubjectForm = () => {
         try {
             await createSubject({name: values.name});
             form.reset();
-            // router.refresh();
+            setIsOpen(false);
         } catch (error) {
             console.error('Failed to create subject:', error);
         } finally {

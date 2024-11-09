@@ -1,6 +1,6 @@
 'use client';
 
-import {useState} from 'react';
+import {Dispatch, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -27,7 +27,11 @@ import {SubjectSelect} from './SubjectSelect';
 
 type TeacherFormValues = z.infer<typeof teacherSchema>;
 
-export default function TeacherForm() {
+export default function TeacherForm({
+    setIsOpen,
+}: {
+    setIsOpen: Dispatch<boolean>;
+}) {
     const [date, setDate] = useState<Date>();
 
     const {
