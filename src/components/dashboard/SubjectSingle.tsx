@@ -16,8 +16,10 @@ import {
     AlertDialogTrigger,
 } from '../ui/alert-dialog';
 import {Button} from '../ui/button';
+import AddNewRecord from './AddNewRecord';
 
-const SubjectSingle = ({id, name}: Subject) => {
+const SubjectSingle = (props: Subject) => {
+    const {id, name} = props || {};
     return (
         <TableRow>
             <TableCell className="font-medium">{name}</TableCell>
@@ -26,9 +28,7 @@ const SubjectSingle = ({id, name}: Subject) => {
 
             <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
-                    <Button variant="ghost" size="icon">
-                        <Edit className="h-4 w-4" />
-                    </Button>
+                    <AddNewRecord record={props} type="update" />
 
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
