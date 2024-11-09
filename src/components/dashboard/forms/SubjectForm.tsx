@@ -56,9 +56,6 @@ const SubjectForm = ({setIsOpen}: {setIsOpen: Dispatch<boolean>}) => {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormDescription>
-                                Enter the name of the new subject.
-                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}

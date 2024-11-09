@@ -10,6 +10,19 @@ import {Edit, Trash2} from 'lucide-react';
 import {Button} from '../ui/button';
 import {Subject} from '@prisma/client';
 import {use} from 'react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '../ui/alert-dialog';
+import {deleteSubject} from '../../../data/subject';
+import SubjectSingle from './SubjectSingle';
 
 const SubjectList = ({
     getSubjectsPromise,
@@ -30,27 +43,7 @@ const SubjectList = ({
             </TableHeader>
             <TableBody>
                 {subjects?.map((subject) => (
-                    <TableRow key={subject.id}>
-                        <TableCell className="font-medium">
-                            {subject.name}
-                        </TableCell>
-                        <TableCell>Teacher names</TableCell>
-                        <TableCell>Subject Lessons</TableCell>
-
-                        <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                                <Button variant="ghost" size="icon">
-                                    <Edit className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="text-red-500">
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </TableCell>
-                    </TableRow>
+                    <SubjectSingle key={subject.id} {...subject} />
                 ))}
             </TableBody>
         </Table>

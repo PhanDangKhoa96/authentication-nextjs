@@ -24,3 +24,18 @@ export const getAllSubjects = async () => {
         return null;
     }
 };
+
+export const deleteSubject = async ({id}: {id: number}) => {
+    try {
+        await db.subject.delete({
+            where: {
+                id,
+            },
+        });
+
+        revalidatePath('/dashboard/subjects');
+    } catch (error) {
+        console.log('error', error);
+        throw new Error('Failed to delete subject');
+    }
+};
