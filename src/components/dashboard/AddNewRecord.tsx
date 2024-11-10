@@ -1,7 +1,7 @@
 'use client';
 
 import TeacherForm from '@/components/dashboard/forms/TeacherForm';
-import {Button} from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -9,18 +9,18 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import {Edit, Plus} from 'lucide-react';
-import {usePathname} from 'next/navigation';
-import {useState} from 'react';
+import { Edit, Plus } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import SubjectForm from './forms/SubjectForm';
-import {Subject} from '@prisma/client';
+import { SubjectWithRelations, TeacherWithRelations } from '@/types/users';
 
 const AddNewRecord = ({
     type,
     record,
 }: {
     type: 'add' | 'update';
-    record: Subject;
+    record?: SubjectWithRelations | TeacherWithRelations;
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -60,7 +60,24 @@ const AddNewRecord = ({
         }
     };
 
-    const FormComponent = pageContent().form;
+    const FormComponent = pageContent().form as React.ComponentType<{
+        record?: typeof record;
+        isAddForm: boolean;
+        setIsOpen: (value: boolean) => void;
+    }>;
+
+    const getTypedRecord = () => {
+        if (!record) return undefined;
+
+        switch (pageName) {
+            case 'teachers':
+                return record as TeacherWithRelations;
+            case 'subjects':
+                return record as SubjectWithRelations;
+            default:
+                return undefined;
+        }
+    };
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -81,7 +98,7 @@ const AddNewRecord = ({
                     <DialogTitle>{pageContent().dialogTitle}</DialogTitle>
                 </DialogHeader>
                 <FormComponent
-                    record={record}
+                    record={getTypedRecord()}
                     isAddForm={isAddForm}
                     setIsOpen={setIsOpen}
                 />

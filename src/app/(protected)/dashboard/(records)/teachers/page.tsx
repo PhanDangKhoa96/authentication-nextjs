@@ -1,5 +1,14 @@
 import TeacherList from '@/components/dashboard/TeacherList';
+import React, { Suspense } from 'react';
+import { getAllTeachers } from '../../../../../../data/teacher';
 
-export default function TeacherPage() {
-    return <TeacherList />;
-}
+const TeacherPage = async () => {
+    const teachers = await getAllTeachers();
+    return (
+        <Suspense fallback={<div>Loading teachers...</div>}>
+            <TeacherList teachers={teachers} />
+        </Suspense>
+    );
+};
+
+export default TeacherPage;

@@ -17,52 +17,27 @@ import {
 } from '../ui/alert-dialog';
 import {Button} from '../ui/button';
 import AddNewRecord from './AddNewRecord';
+import {SubjectWithRelations} from '@/types/users';
+import DeleteDialog from './DeleteDialog';
 
-const SubjectSingle = (props: Subject) => {
-    const {id, name} = props || {};
+const SubjectSingle = (props: SubjectWithRelations) => {
+    const {id, name, teachers} = props || {};
+
     return (
         <TableRow>
             <TableCell className="font-medium">{name}</TableCell>
-            <TableCell>Teacher names</TableCell>
+            <TableCell>
+                {teachers?.map((teacher) => teacher.name).join(', ')}
+            </TableCell>
             <TableCell>Subject Lessons</TableCell>
 
             <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
                     <AddNewRecord record={props} type="update" />
-
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="text-red-500">
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                    Are you absolutely sure?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    This action cannot be undone. This will
-                                    permanently delete the subject and remove
-                                    the data from our servers.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                    onClick={() =>
-                                        deleteSubject({
-                                            id,
-                                        })
-                                    }>
-                                    Delete
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                    <DeleteDialog 
+                        description="This action cannot be undone. This will permanently delete the subject and remove the data from our servers."
+                        onDelete={() => deleteSubject({ id })}
+                    />
                 </div>
             </TableCell>
         </TableRow>

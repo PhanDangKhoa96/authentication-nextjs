@@ -1,7 +1,7 @@
 'use client';
 
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
-import {Button} from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
     Table,
     TableBody,
@@ -10,51 +10,29 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import {format} from 'date-fns';
-import {Edit, Trash2} from 'lucide-react';
+import { TeacherWithRelations } from '@/types/users';
+import { Edit, Trash2 } from 'lucide-react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import AddNewRecord from './AddNewRecord';
+import { deleteTeacher } from '../../../data/teacher';
+import DeleteDialog from './DeleteDialog';
 
-// Mock data
-const teachers = [
-    {
-        id: 'T001',
-        username: 'jsmith',
-        name: 'John',
-        surname: 'Smith',
-        email: 'john.smith@school.com',
-        phone: '123-456-7890',
-        address: '123 Main St, Anytown, USA',
-        img: '/placeholder.svg',
-        bloodType: 'A+',
-        sex: 'MALE',
-        createdAt: new Date('2023-01-15'),
-        subjects: ['Math', 'Physics'],
-        birthday: new Date('1980-05-10'),
-    },
-    {
-        id: 'T002',
-        username: 'mjohnson',
-        name: 'Mary',
-        surname: 'Johnson',
-        email: 'mary.johnson@school.com',
-        phone: '987-654-3210',
-        address: '456 Oak St, Another Town, USA',
-        img: '/placeholder.svg',
-        bloodType: 'B-',
-        sex: 'FEMALE',
-        createdAt: new Date('2023-02-20'),
-        subjects: ['English', 'Literature'],
-        birthday: new Date('1985-08-22'),
-    },
-    // Add more mock data as needed
-];
-
-const TeacherList = () => {
+const TeacherList = ({ teachers }: { teachers: TeacherWithRelations[] }) => {
     return (
         <div className="rounded-md border">
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>ID</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Phone</TableHead>
@@ -67,36 +45,31 @@ const TeacherList = () => {
                         <TableRow
                             key={teacher.id}
                             className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                            <TableCell>{teacher.id}</TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-2">
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage
-                                            src={teacher.img}
-                                            alt={`${teacher.name} ${teacher.surname}`}
+                                            src={teacher.image || undefined}
+                                            alt={`${teacher.name}`}
                                         />
                                         <AvatarFallback>
                                             {teacher.name[0]}
-                                            {teacher.surname[0]}
+
                                         </AvatarFallback>
                                     </Avatar>
-                                    {teacher.name} {teacher.surname}
+                                    {teacher.name}
                                 </div>
                             </TableCell>
                             <TableCell>{teacher.email}</TableCell>
                             <TableCell>{teacher.phone}</TableCell>
-                            <TableCell>{teacher.subjects.join(', ')}</TableCell>
+                            <TableCell>{teacher.subjects.map(subject => subject.name).join(', ')}</TableCell>
                             <TableCell className="text-right">
                                 <div className="flex justify-end gap-2">
-                                    <Button variant="ghost" size="icon">
-                                        <Edit className="h-4 w-4" />
-                                    </Button>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="text-red-500">
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
+                                    <AddNewRecord record={teacher} type="update" />
+                                    <DeleteDialog
+                                        description="This action cannot be undone. This will permanently delete the teacher and remove the data from our servers."
+                                        onDelete={() => deleteTeacher({ id: teacher.id })}
+                                    />
                                 </div>
                             </TableCell>
                         </TableRow>

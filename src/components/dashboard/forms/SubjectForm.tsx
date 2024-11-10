@@ -10,13 +10,15 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
-import {formSchema} from '@/schemas/formSchema';
+import {subjectFormSchema} from '@/schemas/formSchema';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {Dispatch, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import * as z from 'zod';
 import {createSubject, updateSubject} from '../../../../data/subject';
 import {Subject} from '@prisma/client';
+import {useToast} from '@/hooks/use-toast';
+import { SubjectWithRelations } from '@/types/users';
 
 const SubjectForm = ({
     setIsOpen,
@@ -25,27 +27,62 @@ const SubjectForm = ({
 }: {
     setIsOpen: Dispatch<boolean>;
     isAddForm: boolean;
-    record?: Subject;
+    record?: SubjectWithRelations;
 }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const {toast} = useToast();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof subjectFormSchema>>({
+        resolver: zodResolver(subjectFormSchema),
         defaultValues: {
             name: record?.name ?? '',
         },
     });
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof subjectFormSchema>) {
         setIsSubmitting(true);
         try {
             if (isAddForm) {
-                await createSubject({name: values.name});
+                const result = await createSubject({name: values.name});
+
+                if (result.error) {
+                    toast({
+                        title: 'Error',
+                        description: result.error,
+                        variant: 'destructive',
+                    });
+                    return;
+                }
+
                 form.reset();
+
+                toast({
+                    title: 'Success',
+                    description: 'New subject created!',
+                });
             }
 
-            record &&
-                (await updateSubject({id: record?.id, name: values.name}));
+            if (record) {
+                const result = await updateSubject({
+                    id: record?.id,
+                    name: values.name,
+                });
+
+                if (result.error) {
+                    toast({
+                        title: 'Error',
+                        description: result.error,
+                        variant: 'destructive',
+                    });
+                    return;
+                }
+                toast({
+                    title: 'Success',
+                    description: 'Subject updated!',
+                });
+            }
+
+            setIsOpen(false);
         } catch (error) {
             console.error(
                 isAddForm
@@ -53,8 +90,9 @@ const SubjectForm = ({
                     : 'Failed to update subject:',
                 error
             );
-        } finally {
+
             setIsOpen(false);
+        } finally {
             setIsSubmitting(false);
         }
     }

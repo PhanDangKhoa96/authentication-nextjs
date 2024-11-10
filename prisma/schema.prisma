@@ -21,21 +21,25 @@ model User {
   bloodType BloodType?
   adminId   String?    @unique
   admin     Admin?     @relation(fields: [adminId], references: [id])
-
-  teacherId String?  @unique
-  teacher   Teacher? @relation(fields: [teacherId], references: [id])
 }
 
 model Teacher {
-  id       String   @id @default(cuid())
-  subjects String[]
-  // lessons  String[]
-  // classes  String[]
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  image     String?
+  role      UserRole
+  sex       UserSex?
+  createdAt DateTime   @default(now())
+  birthday  DateTime?
+  phone     String?
+  bloodType BloodType?
 
   // Relations
-  user      User?
-  Subject   Subject? @relation(fields: [subjectId], references: [id])
-  subjectId Int?
+  subjects Subject[]
+  // lessons  String[]
+  // classes  String[]
 }
 
 model Subject {

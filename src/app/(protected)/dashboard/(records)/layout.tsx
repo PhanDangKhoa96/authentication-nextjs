@@ -11,7 +11,7 @@ const RecordLayout = ({children}: PropsWithChildren) => {
                 <SearchBar />
                 <div className="flex gap-2">
                     <FilterBar />
-                    <AddNewRecord type="add" />
+                    <AddNewRecord  type="add" />
                 </div>
             </div>
 
