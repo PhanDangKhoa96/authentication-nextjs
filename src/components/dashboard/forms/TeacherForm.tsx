@@ -210,9 +210,9 @@ export default function TeacherForm({
                                         value as TeacherFormValues['sex']
                                     )
                                 }>
-                                {Object.values(UserSex).map((sex) => {
+                                {Object.values(UserSex).map((sex, index) => {
                                     return (
-                                        <div className="flex items-center space-x-2">
+                                        <div key={index} className="flex items-center space-x-2">
                                             <RadioGroupItem
                                                 value={sex}
                                                 id={sex.toLowerCase()}

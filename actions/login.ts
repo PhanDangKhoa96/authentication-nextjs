@@ -1,7 +1,6 @@
 'use server';
 
 import {sendEmailVerification} from '@/lib/auth/email';
-import {generateVerificationToken} from '@/lib/auth/token';
 import {loginSchema} from '@/schemas';
 import {LoginValueType} from '@/types/login';
 import {AuthError} from 'next-auth';
@@ -9,7 +8,12 @@ import {signIn} from '../auth';
 import {getUserByEmail} from '../data/user';
 import {DEFAULT_DIRECT_LOGIN} from '../routes';
 
-export const login = async (values: LoginValueType) => {
+type LoginResponse = {
+    error?: string;
+    success?: string;
+}
+
+export const login = async (values: LoginValueType): Promise<LoginResponse> => {
     const validatedFields = loginSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -41,6 +45,7 @@ export const login = async (values: LoginValueType) => {
             password,
             redirectTo: DEFAULT_DIRECT_LOGIN,
         });
+        return { success: 'Logged in successfully!' };
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
