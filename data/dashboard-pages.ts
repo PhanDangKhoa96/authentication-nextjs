@@ -11,7 +11,7 @@ import {
     PenTool,
     ScrollText,
     Users,
-    UserSquare2
+    UserSquare2,
 } from 'lucide-react';
 
 export const dashboardLinks = [
@@ -21,7 +21,7 @@ export const dashboardLinks = [
     {icon: UserSquare2, label: 'Parents', link: 'students'},
     {icon: BookOpen, label: 'Subjects', link: 'subjects'},
     {icon: Book, label: 'Classes', link: 'students'},
-    {icon: ScrollText, label: 'Lessons', link: 'students'},
+    {icon: ScrollText, label: 'Lessons', link: 'lessons'},
     {icon: PenTool, label: 'Exams', link: 'students'},
     {icon: ClipboardList, label: 'Assignments', link: 'students'},
     {icon: Award, label: 'Results', link: 'students'},

@@ -1,6 +1,8 @@
 'use client';
 
 import TeacherForm from '@/components/dashboard/forms/TeacherForm';
+import SubjectForm from './forms/SubjectForm';
+import LessonForm from './forms/LessonForm';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -12,21 +14,20 @@ import {
 import { Edit, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import SubjectForm from './forms/SubjectForm';
-import { SubjectWithRelations, TeacherWithRelations } from '@/types/users';
+import { SubjectWithRelations, TeacherWithRelations, LessonWithRelations } from '@/types/users';
+
+type RecordType = SubjectWithRelations | TeacherWithRelations | LessonWithRelations;
 
 const AddNewRecord = ({
     type,
     record,
 }: {
     type: 'add' | 'update';
-    record?: SubjectWithRelations | TeacherWithRelations;
+    record?: RecordType;
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-
     const pathname = usePathname();
     const pageName = pathname.split('/').reverse()[0];
-
     const isAddForm = type === 'add';
 
     const pageContent = () => {
@@ -39,10 +40,6 @@ const AddNewRecord = ({
                         : 'Update Teacher',
                     form: TeacherForm,
                 };
-            // case 'students':
-            //     return 'Add Student';
-            // case 'classes':
-            //     return 'Add Class';
             case 'subjects':
                 return {
                     buttonText: 'Add Subject',
@@ -51,17 +48,25 @@ const AddNewRecord = ({
                         : 'Update Subject',
                     form: SubjectForm,
                 };
+            case 'lessons':
+                return {
+                    buttonText: 'Add Lesson',
+                    dialogTitle: isAddForm
+                        ? 'Add New Lesson'
+                        : 'Update Lesson',
+                    form: LessonForm,
+                };
             default:
                 return {
-                    buttonText: 'Add Subject',
-                    dialogTitle: 'Add New Subject',
+                    buttonText: 'Add Record',
+                    dialogTitle: 'Add New Record',
                     form: TeacherForm,
                 };
         }
     };
 
     const FormComponent = pageContent().form as React.ComponentType<{
-        record?: typeof record;
+        record?: RecordType;
         isAddForm: boolean;
         setIsOpen: (value: boolean) => void;
     }>;
@@ -74,6 +79,8 @@ const AddNewRecord = ({
                 return record as TeacherWithRelations;
             case 'subjects':
                 return record as SubjectWithRelations;
+            case 'lessons':
+                return record as LessonWithRelations;
             default:
                 return undefined;
         }
