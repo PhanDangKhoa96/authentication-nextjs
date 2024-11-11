@@ -68,6 +68,27 @@ model Lesson {
   // attendances Attendance[]
 }
 
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  startTime   DateTime
+  endTime     DateTime
+
+  // classId Int?
+  // class   Class? @relation(fields: [classId], references: [id])
+}
+
+model Announcement {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime
+
+  // classId Int?
+  // class   Class? @relation(fields: [classId], references: [id])
+}
+
 model Admin {
   id   String @id @default(cuid())
   user User?

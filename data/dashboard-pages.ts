@@ -26,6 +26,6 @@ export const dashboardLinks = [
     {icon: ClipboardList, label: 'Assignments', link: 'students'},
     {icon: Award, label: 'Results', link: 'students'},
     {icon: CalendarDays, label: 'Attendance', link: 'students'},
-    {icon: Bell, label: 'Events', link: 'students'},
+    {icon: Bell, label: 'Events', link: 'events'},
     {icon: MessageSquare, label: 'Messages', link: 'students'},
 ];

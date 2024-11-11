@@ -14,9 +14,10 @@ import {
 import { Edit, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { SubjectWithRelations, TeacherWithRelations, LessonWithRelations } from '@/types/users';
+import { SubjectWithRelations, TeacherWithRelations, LessonWithRelations, EventWithRelations } from '@/types/users';
+import { EventForm } from './forms/EventForm';
 
-type RecordType = SubjectWithRelations | TeacherWithRelations | LessonWithRelations;
+type RecordType = SubjectWithRelations | TeacherWithRelations | LessonWithRelations | EventWithRelations;
 
 const AddNewRecord = ({
     type,
@@ -56,6 +57,14 @@ const AddNewRecord = ({
                         : 'Update Lesson',
                     form: LessonForm,
                 };
+            case 'events':
+                return {
+                    buttonText: 'Add Event',
+                    dialogTitle: isAddForm
+                        ? 'Add New Event'
+                        : 'Update Event',
+                    form: EventForm,
+                };
             default:
                 return {
                     buttonText: 'Add Record',
@@ -81,6 +90,8 @@ const AddNewRecord = ({
                 return record as SubjectWithRelations;
             case 'lessons':
                 return record as LessonWithRelations;
+            case 'events':
+                return record as EventWithRelations;
             default:
                 return undefined;
         }

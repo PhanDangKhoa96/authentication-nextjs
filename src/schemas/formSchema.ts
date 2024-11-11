@@ -16,3 +16,14 @@ export const lessonFormSchema = z.object({
     subjectId: z.number(),
     teacherId: z.string(),
 });
+
+export const eventSchema = z.object({
+    title: z.string().min(2, "Title must be at least 2 characters"),
+    description: z.string().min(10, "Description must be at least 10 characters"),
+    startTime: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid start time",
+    }),
+    endTime: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid end time",
+    }),
+  })
