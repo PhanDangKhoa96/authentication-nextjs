@@ -16,8 +16,10 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { SubjectWithRelations, TeacherWithRelations, LessonWithRelations, EventWithRelations } from '@/types/users';
 import { EventForm } from './forms/EventForm';
+import { AnnouncementForm } from './forms/AnnouncementForm';
+import { AnnouncementWithRelations } from '@/types/users';
 
-type RecordType = SubjectWithRelations | TeacherWithRelations | LessonWithRelations | EventWithRelations;
+type RecordType = SubjectWithRelations | TeacherWithRelations | LessonWithRelations | EventWithRelations | AnnouncementWithRelations;
 
 const AddNewRecord = ({
     type,
@@ -65,6 +67,14 @@ const AddNewRecord = ({
                         : 'Update Event',
                     form: EventForm,
                 };
+            case 'announcements':
+                return {
+                    buttonText: 'Add Announcement',
+                    dialogTitle: isAddForm
+                        ? 'Add New Announcement'
+                        : 'Update Announcement',
+                    form: AnnouncementForm,
+                };
             default:
                 return {
                     buttonText: 'Add Record',
@@ -92,6 +102,8 @@ const AddNewRecord = ({
                 return record as LessonWithRelations;
             case 'events':
                 return record as EventWithRelations;
+            case 'announcements':
+                return record as AnnouncementWithRelations;
             default:
                 return undefined;
         }

@@ -27,3 +27,11 @@ export const eventSchema = z.object({
       message: "Invalid end time",
     }),
   })
+
+export const announcementSchema = z.object({
+    title: z.string().min(2, "Title must be at least 2 characters"),
+    description: z.string().min(10, "Description must be at least 10 characters"),
+    date: z.string().refine((val) => !isNaN(Date.parse(val)), {
+        message: "Invalid date",
+    }),
+})
